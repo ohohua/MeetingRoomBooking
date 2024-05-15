@@ -1,0 +1,12 @@
+{
+  "name": "meetingroombooking",
+  "version": "1.0.0",
+  "description": "<div style=\"center\">会议室预定系统</div>",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
