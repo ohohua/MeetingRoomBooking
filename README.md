@@ -1,1 +1,1 @@
-<div style="center">会议室预定系统</div>
+<p align="center">会议室预定系统</p>
