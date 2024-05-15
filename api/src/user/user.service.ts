@@ -1,12 +1,6 @@
 import { JwtService } from '@nestjs/jwt';
 import { LoginUserDto } from './dto/login-user.dto';
-import {
-  HttpException,
-  HttpStatus,
-  Inject,
-  Injectable,
-  Logger,
-} from '@nestjs/common';
+import { HttpException, HttpStatus, Inject, Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
@@ -203,8 +197,7 @@ export class UserService {
 
   async generatorToken(content: any) {
     return this.jwtService.sign(content, {
-      expiresIn:
-        this.configService.get('jwt_access_token_expires_time') || '30m',
+      expiresIn: this.configService.get('jwt_access_token_expires_time') || '30m',
     });
   }
 
@@ -218,9 +211,7 @@ export class UserService {
   }
 
   async updatePassword(userId: number, passwordDto: UpdateUserPasswordDto) {
-    const captcha = await this.redisService.get(
-      `update_password_captcha_${passwordDto.email}`,
-    );
+    const captcha = await this.redisService.get(`update_password_captcha_${passwordDto.email}`);
 
     if (!captcha) {
       throw new HttpException('验证码已失效', HttpStatus.BAD_REQUEST);
@@ -235,10 +226,7 @@ export class UserService {
     });
 
     if (foundUser.email !== passwordDto.email) {
-      throw new HttpException(
-        '输入邮箱与注册邮箱不一致',
-        HttpStatus.BAD_REQUEST,
-      );
+      throw new HttpException('输入邮箱与注册邮箱不一致', HttpStatus.BAD_REQUEST);
     }
 
     foundUser.password = md5(passwordDto.password);
@@ -253,9 +241,7 @@ export class UserService {
   }
 
   async update(userId: number, updateUserDto: UpdateUserDto) {
-    const captcha = await this.redisService.get(
-      `update_user_captcha_${updateUserDto.email}`,
-    );
+    const captcha = await this.redisService.get(`update_user_captcha_${updateUserDto.email}`);
 
     if (!captcha) {
       throw new HttpException('验证码已失效', HttpStatus.BAD_REQUEST);
@@ -270,10 +256,7 @@ export class UserService {
     });
 
     if (foundUser.email !== updateUserDto.email) {
-      throw new HttpException(
-        '输入邮箱与注册邮箱不一致',
-        HttpStatus.BAD_REQUEST,
-      );
+      throw new HttpException('输入邮箱与注册邮箱不一致', HttpStatus.BAD_REQUEST);
     }
 
     if (updateUserDto.nickName) {

@@ -1,15 +1,7 @@
 import { UserInfoVo } from './vo/user-info.vo';
 import { EmailService } from './../email/email.service';
 import { RedisService } from './../redis/redis.service';
-import {
-  Body,
-  Controller,
-  Get,
-  Inject,
-  Post,
-  Query,
-  UnauthorizedException,
-} from '@nestjs/common';
+import { Body, Controller, Get, Inject, Post, Query, UnauthorizedException } from '@nestjs/common';
 import { UserService } from './user.service';
 import { RegisterUserDto } from './dto/user.dto';
 import { LoginUserDto } from './dto/login-user.dto';
@@ -71,8 +63,7 @@ export class UserController {
         permissions: vo.userInfo.permissions,
       },
       {
-        expiresIn:
-          this.configService.get('jwt_access_token_expires_time') || '30m',
+        expiresIn: this.configService.get('jwt_access_token_expires_time') || '30m',
       },
     );
 
@@ -81,8 +72,7 @@ export class UserController {
         userId: vo.userInfo.id,
       },
       {
-        expiresIn:
-          this.configService.get('jwt_access_token_expires_time') || '30m',
+        expiresIn: this.configService.get('jwt_access_token_expires_time') || '30m',
       },
     );
     return vo;
@@ -148,11 +138,7 @@ export class UserController {
   async updatePasswordCaptcha(@Query('address') address: string) {
     const code = Math.random().toString().slice(2, 8);
 
-    await this.redisService.set(
-      `update_password_captcha_${address}`,
-      code,
-      10 * 60,
-    );
+    await this.redisService.set(`update_password_captcha_${address}`, code, 10 * 60);
 
     await this.emailService.sendMail({
       to: address,
@@ -176,11 +162,7 @@ export class UserController {
   async updateCaptcha(@Query('address') address: string) {
     const code = Math.random().toString().slice(2, 8);
 
-    await this.redisService.set(
-      `update_user_captcha_${address}`,
-      code,
-      10 * 60,
-    );
+    await this.redisService.set(`update_user_captcha_${address}`, code, 10 * 60);
 
     await this.emailService.sendMail({
       to: address,
@@ -192,10 +174,7 @@ export class UserController {
 
   @Post(['update', 'admin/update'])
   @RequireLogin()
-  async update(
-    @UserInfo('userId') userId: number,
-    @Body() updateUserDto: UpdateUserDto,
-  ) {
+  async update(@UserInfo('userId') userId: number, @Body() updateUserDto: UpdateUserDto) {
     return await this.userService.update(userId, updateUserDto);
   }
 }
