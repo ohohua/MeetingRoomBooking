@@ -13,10 +13,13 @@ import { JwtModule } from '@nestjs/jwt';
 import { APP_GUARD } from '@nestjs/core';
 import { LoginGuard } from './guard/login.guard';
 import { PermissionGuard } from './guard/permission.guard';
+import { TestModule } from './test/test.module';
 
 const entities = [Role, Permission, User];
 @Module({
   imports: [
+    TestModule,
+
     TypeOrmModule.forRootAsync({
       useFactory(configService: ConfigService) {
         return {
