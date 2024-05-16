@@ -1,11 +1,5 @@
 // 接口访问记录 interceptor
-import {
-  CallHandler,
-  ExecutionContext,
-  Injectable,
-  Logger,
-  NestInterceptor,
-} from '@nestjs/common';
+import { CallHandler, ExecutionContext, Injectable, Logger, NestInterceptor } from '@nestjs/common';
 import { Observable, tap } from 'rxjs';
 
 @Injectable()
@@ -22,9 +16,7 @@ export class InvokeRecordInterceptor implements NestInterceptor {
     this.logger.debug(
       `${method} ${path} ${ip} ${userAgent}: ${context.getClass().name} ${context.getHandler().name} invoke...`,
     );
-    this.logger.debug(
-      `user: ${request.user?.userId}, ${request.user?.username}`,
-    );
+    this.logger.debug(`user: ${request.user?.userId}, ${request.user?.username}`);
     const now = Date.now();
 
     return next.handle().pipe(

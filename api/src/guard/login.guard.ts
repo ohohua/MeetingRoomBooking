@@ -30,9 +30,7 @@ export class LoginGuard implements CanActivate {
   @Inject()
   private jwtService: JwtService;
 
-  canActivate(
-    context: ExecutionContext,
-  ): boolean | Promise<boolean> | Observable<boolean> {
+  canActivate(context: ExecutionContext): boolean | Promise<boolean> | Observable<boolean> {
     console.log('login guard');
 
     const request = context.switchToHttp().getRequest();

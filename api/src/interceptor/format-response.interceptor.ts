@@ -1,11 +1,6 @@
 // 全局拦截器，用于更改响应格式
 // 创建快捷语法： nest g interceptor xxx --flat
-import {
-  CallHandler,
-  ExecutionContext,
-  Injectable,
-  NestInterceptor,
-} from '@nestjs/common';
+import { CallHandler, ExecutionContext, Injectable, NestInterceptor } from '@nestjs/common';
 import { Observable, map } from 'rxjs';
 import { Response } from 'express';
 

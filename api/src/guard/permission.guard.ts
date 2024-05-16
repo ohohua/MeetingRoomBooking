@@ -13,9 +13,7 @@ export class PermissionGuard implements CanActivate {
   @Inject()
   private reflector: Reflector;
 
-  canActivate(
-    context: ExecutionContext,
-  ): boolean | Promise<boolean> | Observable<boolean> {
+  canActivate(context: ExecutionContext): boolean | Promise<boolean> | Observable<boolean> {
     console.log('permission guard');
 
     const request = context.switchToHttp().getRequest();
@@ -26,10 +24,10 @@ export class PermissionGuard implements CanActivate {
 
     const permissions = request.user.permissions;
 
-    const requirePermissions = this.reflector.getAllAndOverride<string[]>(
-      'require-permission',
-      [context.getClass(), context.getHandler()],
-    );
+    const requirePermissions = this.reflector.getAllAndOverride<string[]>('require-permission', [
+      context.getClass(),
+      context.getHandler(),
+    ]);
 
     if (!requirePermissions) {
       return true;
