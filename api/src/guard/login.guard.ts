@@ -8,6 +8,7 @@ import {
 import { Reflector } from '@nestjs/core';
 import { JwtService } from '@nestjs/jwt';
 import { Observable } from 'rxjs';
+import { UnLoginException } from 'src/filter/unlogin.filter';
 import { Permission } from 'src/user/entities/permission.entity';
 
 interface JwtUserData {
@@ -31,8 +32,6 @@ export class LoginGuard implements CanActivate {
   private jwtService: JwtService;
 
   canActivate(context: ExecutionContext): boolean | Promise<boolean> | Observable<boolean> {
-    console.log('login guard');
-
     const request = context.switchToHttp().getRequest();
 
     const requireLogin = this.reflector.getAllAndOverride('require-login', [
@@ -47,7 +46,7 @@ export class LoginGuard implements CanActivate {
     const authorization = request.headers.authorization;
 
     if (!authorization) {
-      throw new UnauthorizedException('用户未登陆');
+      throw new UnLoginException('用户未登陆');
     }
 
     try {
