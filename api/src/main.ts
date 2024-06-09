@@ -15,7 +15,7 @@ async function bootstrap() {
   app.useGlobalInterceptors(new InvokeRecordInterceptor());
   app.useGlobalFilters(new UnLoginFilter());
   app.useGlobalFilters(new CustomExceptionFilter());
-
+  app.enableCors();
   const configService = app.get(ConfigService);
 
   await app.listen(configService.get('nest_server_port'));
