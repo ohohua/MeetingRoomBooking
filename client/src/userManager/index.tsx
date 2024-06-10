@@ -67,8 +67,8 @@ const UserManage: React.FC = () => {
 
   const [form] = useForm();
 
-  const onFinish: FormProps["onFinish"] = (values) => {
-    console.log("Success:", values);
+  const onFinish: FormProps["onFinish"] = () => {
+    useDataList();
   };
 
   const onFinishFailed: FormProps["onFinishFailed"] = (errorInfo) => {
@@ -140,7 +140,7 @@ const UserManage: React.FC = () => {
         pagination={{
           current: pageNo,
           pageSize: pageSize,
-          onChange: userList,
+          onChange: useDataList,
         }}
       />
     </div>
