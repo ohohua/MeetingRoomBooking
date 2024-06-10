@@ -1,7 +1,9 @@
-import React, { useEffect, useState } from "react";
-import { Table, Form, Button, Input, Image, message } from "antd";
+import React, { useEffect, useMemo, useState } from "react";
+import { Table, Form, Button, Input, Image, message, Badge } from "antd";
 import type { FormProps, TableColumnsType } from "antd";
 import http from "@/api";
+import { useForm } from "antd/es/form/Form";
+import { userList } from "@/api/user";
 
 interface DataType {
   key: React.Key;
@@ -14,45 +16,56 @@ interface DataType {
 }
 
 const UserManage: React.FC = () => {
-  const columns: TableColumnsType<DataType> = [
-    {
-      title: "用户名",
-      dataIndex: "username",
-    },
-    {
-      title: "头像",
-      dataIndex: "headPic",
-      render: (value) => {
-        return value ? <Image width={50} src={`http://localhost:3005/${value}`} /> : "";
+  const columns: TableColumnsType<DataType> = useMemo(
+    () => [
+      {
+        title: "用户名",
+        dataIndex: "username",
       },
-    },
-    {
-      title: "昵称",
-      dataIndex: "nickName",
-    },
-    {
-      title: "邮箱",
-      dataIndex: "email",
-    },
-    {
-      title: "注册时间",
-      dataIndex: "createTime",
-      render: (value) => (value ? new Date(value).toLocaleDateString() : ""),
-    },
-    {
-      title: "操作",
-      render: (_, record) =>
-        record.isFrozen ? (
-          <a href="#" onClick={() => freeze(record.id)}>
-            冻结
-          </a>
-        ) : (
-          ""
-        ),
-    },
-  ];
+      {
+        title: "头像",
+        dataIndex: "headPic",
+        render: (value) => {
+          return value ? <Image width={50} src={`http://localhost:3005/${value}`} /> : "";
+        },
+      },
+      {
+        title: "昵称",
+        dataIndex: "nickName",
+      },
+      {
+        title: "邮箱",
+        dataIndex: "email",
+      },
+      {
+        title: "注册时间",
+        dataIndex: "createTime",
+        render: (value) => (value ? new Date(value).toLocaleDateString() : ""),
+      },
+      {
+        title: "状态",
+        render: (_, record) => (record.isFrozen ? <Badge status="success">已冻结</Badge> : ""),
+      },
+      {
+        title: "操作",
+        render: (_, record) =>
+          record.isFrozen ? (
+            <a href="#" onClick={() => freeze(record.id)}>
+              冻结
+            </a>
+          ) : (
+            ""
+          ),
+      },
+    ],
+    []
+  );
 
   const [list, setList] = useState<DataType[]>([]);
+  const [pageNo] = useState<number>(1);
+  const [pageSize] = useState<number>(10);
+
+  const [form] = useForm();
 
   const onFinish: FormProps["onFinish"] = (values) => {
     console.log("Success:", values);
@@ -63,7 +76,13 @@ const UserManage: React.FC = () => {
   };
 
   async function useDataList() {
-    const params = { pageNo: 1, pageSize: 10 };
+    const params = {
+      pageNo,
+      pageSize,
+      username: form.getFieldValue("username"),
+      email: form.getFieldValue("email"),
+      nickName: form.getFieldValue("nickName"),
+    };
     const res = await http.userList(params);
     if (res.data.code === 200 || res.data.code === 201) {
       const list = res.data.data.list.map((it: DataType, index: number) => ({ ...it, key: index }));
@@ -75,17 +94,18 @@ const UserManage: React.FC = () => {
     if (res.data.code === 200 || res.data.code === 201) {
       message.success("冻结成功");
       useDataList();
-      return;
     } else {
       message.error(res.data.message);
     }
   }
   useEffect(() => {
     useDataList();
-  }, []);
+  }, [pageNo, pageSize]);
+
   return (
     <div>
       <Form
+        form={form}
         name="basic"
         labelCol={{ span: 8 }}
         wrapperCol={{ span: 16 }}
@@ -114,7 +134,15 @@ const UserManage: React.FC = () => {
           </Button>
         </Form.Item>
       </Form>
-      <Table columns={columns} dataSource={list} />
+      <Table
+        columns={columns}
+        dataSource={list}
+        pagination={{
+          current: pageNo,
+          pageSize: pageSize,
+          onChange: userList,
+        }}
+      />
     </div>
   );
 };
