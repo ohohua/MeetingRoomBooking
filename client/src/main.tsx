@@ -4,15 +4,22 @@ import Login from "./login/index";
 import Register from "./register/index";
 import UpdatePassword from "./updatePassword";
 import ErrorPage from "./errorPage";
+import UserManage from "./userManager";
 import "./assets/tailwindcss.css";
+import Layout from "./layout";
 
 const routes = [
   {
     path: "/",
-    element: <div>index</div>,
+    element: <Layout></Layout>,
     errorElement: <ErrorPage></ErrorPage>,
 
-    children: [],
+    children: [
+      {
+        path: "user_manage",
+        element: <UserManage />,
+      },
+    ],
   },
   {
     path: "login",

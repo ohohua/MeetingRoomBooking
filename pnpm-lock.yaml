@@ -29,6 +29,12 @@ importers:
         specifier: ^6.23.1
         version: 6.23.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
     devDependencies:
+      '@iconify/json':
+        specifier: ^2.2.217
+        version: 2.2.217
+      '@iconify/tailwind':
+        specifier: ^1.1.1
+        version: 1.1.1
       '@types/node':
         specifier: ^20.14.2
         version: 20.14.2
@@ -395,6 +401,15 @@ packages:
 
   '@humanwhocodes/object-schema@2.0.3':
     resolution: {integrity: sha512-93zYdMES/c1D69yZiKDBj0V24vqNzB/koF26KPaagAfd3P/4gUlh3Dys5ogAK+Exi9QyzlD8x/08Zt7wIKcDcA==}
+
+  '@iconify/json@2.2.217':
+    resolution: {integrity: sha512-+sSR9iKsoThUmgG4wA9xdtyazROIqMOo5h5otOXYRyOQjMNJCpJltq5hEhHInC5aG/DUQmXDiN/YsCoJdCYUbQ==}
+
+  '@iconify/tailwind@1.1.1':
+    resolution: {integrity: sha512-4mmA//qjZigv7D4KlqcVSYTqfRIJzyts2/lSCAJfCL0rVMIE76+ifJnaE5jxCo1+nYGBF8FsFo0qFOs+sX4EnA==}
+
+  '@iconify/types@2.0.0':
+    resolution: {integrity: sha512-+wluvCrRhXrhyOmRDJ3q8mux9JkKy5SJ/v8ol2tu4FVjyYvtEzkc/3pK15ET6RKg4b4w4BmTk1+gsCUhf21Ykg==}
 
   '@isaacs/cliui@8.0.2':
     resolution: {integrity: sha512-O8jcjabXaleOG9DQ0+ARXWZBTfnP4WNAqzuiJK7ll44AmxGKv/J2M4TPjxjY3znBCfvBXFzucm1twdyFybFqEA==}
@@ -1543,6 +1558,9 @@ packages:
     resolution: {integrity: sha512-gDKb8aZMDeD/tZWs9P6+q0J9Mwkdl6xMV8TjnGP3qJVJ06bdMgkbBlLU8IdfOsIsFz2BW1rNVT3XuNEl8zPAvw==}
     engines: {node: '>=8'}
 
+  pathe@1.1.2:
+    resolution: {integrity: sha512-whLdWMYL2TwI08hn8/ZqAbrVemu0LNaNNJZX73O6qaIdCTfXutsLhMkjdENX0qhsQ9uIimo4/aQOmXkoon2nDQ==}
+
   picocolors@1.0.1:
     resolution: {integrity: sha512-anP1Z8qwhkbmu7MFP5iTt+wQKXgwzf7zTyGlcdzabySa9vd0Xt392U0rVmz9poOaBj0uHJKyyo9/upk0HrEQew==}
 
@@ -2498,6 +2516,17 @@ snapshots:
   '@humanwhocodes/module-importer@1.0.1': {}
 
   '@humanwhocodes/object-schema@2.0.3': {}
+
+  '@iconify/json@2.2.217':
+    dependencies:
+      '@iconify/types': 2.0.0
+      pathe: 1.1.2
+
+  '@iconify/tailwind@1.1.1':
+    dependencies:
+      '@iconify/types': 2.0.0
+
+  '@iconify/types@2.0.0': {}
 
   '@isaacs/cliui@8.0.2':
     dependencies:
@@ -3804,6 +3833,8 @@ snapshots:
       minipass: 7.1.2
 
   path-type@4.0.0: {}
+
+  pathe@1.1.2: {}
 
   picocolors@1.0.1: {}
 

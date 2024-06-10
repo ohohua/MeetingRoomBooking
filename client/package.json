@@ -18,6 +18,8 @@
     "react-router-dom": "^6.23.1"
   },
   "devDependencies": {
+    "@iconify/json": "^2.2.217",
+    "@iconify/tailwind": "^1.1.1",
     "@types/node": "^20.14.2",
     "@types/qs": "^6.9.15",
     "@types/react": "^18.2.66",
