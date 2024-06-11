@@ -3,35 +3,56 @@ import useDark from "@/hooks/useDark";
 import { AppstoreOutlined, MailOutlined, SettingOutlined, UserOutlined } from "@ant-design/icons";
 import type { MenuProps } from "antd";
 import { Menu } from "antd";
+import { useCallback, useState } from "react";
+import { ItemType, MenuItemType } from "antd/es/menu/interface";
 
-type MenuItem = Required<MenuProps>["items"][number];
+function useMenuItem() {
+  const mainItems = [
+    {
+      key: "key1",
+      label: "会议室管理",
+      icon: <AppstoreOutlined />,
+    },
+    {
+      key: "key2",
+      label: "预定管理",
+      icon: <MailOutlined />,
+    },
+    {
+      key: "user_manage",
+      label: "用户管理",
+      icon: <UserOutlined />,
+    },
+    {
+      key: "key4",
+      label: "统计",
+      icon: <SettingOutlined />,
+    },
+  ];
 
-const items: MenuItem[] = [
-  {
-    key: "key1",
-    label: "会议室管理",
-    icon: <AppstoreOutlined />,
-  },
-  {
-    key: "key2",
-    label: "预定管理",
-    icon: <MailOutlined />,
-  },
-  {
-    key: "user_manage",
-    label: "用户管理",
-    icon: <UserOutlined />,
-  },
-  {
-    key: "key4",
-    label: "统计",
-    icon: <SettingOutlined />,
-  },
-];
+  const settingItems = [
+    {
+      key: "password",
+      label: "修改密码",
+      icon: <SettingOutlined />,
+    },
+    {
+      key: "message",
+      label: "信息修改",
+      icon: <SettingOutlined />,
+    },
+  ];
+
+  const [item, setItem] = useState<ItemType<MenuItemType>[]>(mainItems);
+
+  function toggleMenu(isSetting: boolean) {
+    setItem(() => (isSetting ? settingItems : mainItems));
+  }
+  return { item, toggleMenu };
+}
 
 function Layout() {
   const navigate = useNavigate();
-
   const { dark, toggle } = useDark();
 
   const onClick: MenuProps["onClick"] = (e) => {
@@ -39,17 +60,33 @@ function Layout() {
     navigate(key);
   };
 
+  const { item, toggleMenu } = useMenuItem();
+
+  const handleUser = useCallback(() => {
+    navigate("password");
+    toggleMenu(true);
+  }, []);
+
+  const handleHome = useCallback(() => {
+    navigate("/");
+    toggleMenu(false);
+  }, []);
   return (
     <div className="h-full dark:bg-slate-800">
       <header className="mx-auto max-w-8xl backdrop-blur">
         <div className="flex items-center justify-between py-4 mx-4 border-b border-slate-900/10 lg:px-8 dark:border-slate-300/10 lg:mx-0">
-          <div className="text-xl dark:text-white">会议室管理系统</div>
-          <section className="flex items-center space-x-2">
+          <div onClick={handleHome} className="text-xl cursor-pointer dark:text-white">
+            会议室管理系统
+          </div>
+          <section className="flex items-center space-x-2 cursor-pointer">
             <span
               onClick={toggle}
               className={dark ? "icon-[twemoji--sun]" : " icon-[line-md--moon-alt-loop]"}
             ></span>
-            <span className="icon-[mdi--user] text-2xl dark:text-white"></span>
+            <span
+              onClick={handleUser}
+              className="icon-[mdi--user] text-2xl dark:text-white cursor-pointer"
+            ></span>
           </section>
         </div>
       </header>
@@ -57,10 +94,10 @@ function Layout() {
         <Menu
           onClick={onClick}
           style={{ width: 256 }}
-          defaultSelectedKeys={["1"]}
-          defaultOpenKeys={["sub1"]}
+          defaultSelectedKeys={["user_manage", "password"]}
+          defaultOpenKeys={["user_manage", "password"]}
           mode="inline"
-          items={items}
+          items={item}
         />
 
         <div className="flex-1 p-2 overflow-auto">
