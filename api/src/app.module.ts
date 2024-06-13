@@ -14,8 +14,10 @@ import { APP_GUARD } from '@nestjs/core';
 import { LoginGuard } from './guard/login.guard';
 import { PermissionGuard } from './guard/permission.guard';
 import { TestModule } from './test/test.module';
+import { MeetingRoomModule } from './meeting_room/meeting_room.module';
+import { MeetingRoom } from './meeting_room/entities/meeting_room.entity';
 
-const entities = [Role, Permission, User];
+const entities = [Role, Permission, User, MeetingRoom];
 @Module({
   imports: [
     TestModule,
@@ -60,6 +62,7 @@ const entities = [Role, Permission, User];
     UserModule,
     RedisModule,
     EmailModule,
+    MeetingRoomModule,
   ],
   controllers: [AppController],
   providers: [
