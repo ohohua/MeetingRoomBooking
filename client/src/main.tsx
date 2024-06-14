@@ -9,6 +9,7 @@ import "./assets/tailwindcss.css";
 import Layout from "./layout";
 import Password from "./setting/password";
 import Message from "./setting/message";
+import Room from "./room";
 
 const routes = [
   {
@@ -20,6 +21,10 @@ const routes = [
       {
         path: "user_manage",
         element: <UserManage />,
+      },
+      {
+        path: "room",
+        element: <Room />,
       },
       {
         path: "message",

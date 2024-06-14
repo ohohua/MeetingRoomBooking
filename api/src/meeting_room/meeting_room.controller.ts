@@ -39,8 +39,9 @@ export class MeetingRoomController {
     @Query('pageNo', new DefaultValuePipe(1), generateParseIntPipe('pageNo')) pageNo: number,
     @Query('pageSize', new DefaultValuePipe(10), generateParseIntPipe('pageSize')) pageSize: number,
     @Query('name') name: string,
+    @Query('isBooked') isBooked: boolean,
   ) {
-    return await this.meetingRoomService.roomList(pageNo, pageSize, name);
+    return await this.meetingRoomService.roomList(pageNo, pageSize, name, isBooked);
   }
 
   /**

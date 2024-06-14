@@ -9,7 +9,7 @@ import { ItemType, MenuItemType } from "antd/es/menu/interface";
 function useMenuItem() {
   const mainItems = [
     {
-      key: "key1",
+      key: "room",
       label: "会议室管理",
       icon: <AppstoreOutlined />,
     },

@@ -44,11 +44,16 @@ export class MeetingRoomService {
    * @param pageSize
    * @param name
    */
-  async roomList(pageNo: number, pageSize: number, name: string) {
+  async roomList(pageNo: number, pageSize: number, name: string, isBooked: boolean) {
     const query = this.repository.createQueryBuilder('meeting_room');
     if (name) {
       query.where('meeting_room.name like :name', { name: `%${name}%` });
     }
+
+    if (isBooked) {
+      query.where('meeting_room.isBooked = :isBooked', { isBooked });
+    }
+
     const [list, total] = await query
       .skip((pageNo - 1) * pageSize)
       .take(pageSize)

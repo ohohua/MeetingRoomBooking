@@ -1,60 +1,54 @@
-import React, { useEffect, useMemo, useState } from "react";
-import { Table, Form, Button, Input, Image, message, Badge } from "antd";
-import type { FormProps, TableColumnsType } from "antd";
 import http from "@/api";
+import { Button, Form, Input, Table, TableColumnsType, message, Image, Select } from "antd";
 import { useForm } from "antd/es/form/Form";
+import { useEffect, useMemo, useState } from "react";
 
 interface DataType {
-  key: React.Key;
   id: number;
-  username: string;
-  nickName: string;
-  headPic: string;
-  email: string;
-  isFrozen: boolean;
+  isBooked: boolean;
 }
-
-const UserManage: React.FC = () => {
+const RoomManage: React.FC = () => {
   const columns: TableColumnsType<DataType> = useMemo(
     () => [
       {
-        title: "用户名",
-        dataIndex: "username",
+        title: "会议室名称",
+        dataIndex: "name",
       },
       {
-        title: "头像",
-        dataIndex: "headPic",
-        render: (value) => {
-          return value ? <Image width={50} src={`http://localhost:3005/${value}`} /> : "";
-        },
+        title: "会议室地址",
+        dataIndex: "location",
       },
       {
-        title: "昵称",
-        dataIndex: "nickName",
+        title: "设备",
+        dataIndex: "equipment",
       },
       {
-        title: "邮箱",
-        dataIndex: "email",
+        title: "描述",
+        dataIndex: "description",
       },
       {
-        title: "注册时间",
+        title: "容纳人数",
+        dataIndex: "capacity",
+      },
+      {
+        title: "是否被预定",
+        render: (_, record) => (record.isBooked ? "是" : "否"),
+      },
+      {
+        title: "创建时间",
         dataIndex: "createTime",
-        render: (value) => (value ? new Date(value).toLocaleDateString() : ""),
       },
       {
-        title: "状态",
-        render: (_, record) => (record.isFrozen ? <Badge status="success">已冻结</Badge> : ""),
+        title: "更新时间",
+        dataIndex: "updateTime",
       },
       {
         title: "操作",
-        render: (_, record) =>
-          record.isFrozen ? (
-            <a href="#" onClick={() => freeze(record.id)}>
-              冻结
-            </a>
-          ) : (
-            ""
-          ),
+        render: (_, record) => (
+          <a href="#" onClick={() => freeze(record.id)}>
+            删除
+          </a>
+        ),
       },
     ],
     [],
@@ -66,12 +60,8 @@ const UserManage: React.FC = () => {
 
   const [form] = useForm();
 
-  const onFinish: FormProps["onFinish"] = () => {
+  const onFinish = () => {
     useDataList();
-  };
-
-  const onFinishFailed: FormProps["onFinishFailed"] = (errorInfo) => {
-    console.log("Failed:", errorInfo);
   };
 
   async function useDataList() {
@@ -82,7 +72,7 @@ const UserManage: React.FC = () => {
       email: form.getFieldValue("email"),
       nickName: form.getFieldValue("nickName"),
     };
-    const res = await http.userList(params);
+    const res = await http.getRoomList(params);
     if (res.data.code === 200 || res.data.code === 201) {
       const list = res.data.data.list.map((it: DataType, index: number) => ({ ...it, key: index }));
       setList(list);
@@ -110,26 +100,33 @@ const UserManage: React.FC = () => {
         wrapperCol={{ span: 16 }}
         initialValues={{ remember: true }}
         onFinish={onFinish}
-        onFinishFailed={onFinishFailed}
         autoComplete="off"
         layout="inline"
-        style={{ marginBottom: "10px" }}
+        style={{ marginBottom: "10px", width: "100%" }}
       >
-        <Form.Item label="用户名" name="username">
+        <Form.Item label="会议室名称" name="name">
           <Input />
         </Form.Item>
 
-        <Form.Item label="昵称" name="nickName">
-          <Input />
+        <Form.Item label="是否预定" name="isBooked">
+          <Select
+            style={{ width: "170px" }}
+            options={[
+              { value: 1, label: "是" },
+              { value: 0, label: "否" },
+            ]}
+          />
         </Form.Item>
 
-        <Form.Item label="邮箱" name="nickName">
-          <Input />
+        <Form.Item name="password">
+          <Button type="primary" htmlType="submit">
+            查询
+          </Button>
         </Form.Item>
 
         <Form.Item name="password" wrapperCol={{ span: 16 }}>
           <Button type="primary" htmlType="submit">
-            查询
+            新建
           </Button>
         </Form.Item>
       </Form>
@@ -146,4 +143,4 @@ const UserManage: React.FC = () => {
   );
 };
 
-export default UserManage;
+export default RoomManage;
