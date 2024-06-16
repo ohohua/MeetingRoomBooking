@@ -57,15 +57,12 @@ export class MeetingRoomController {
 
   /**
    * 异步更新房间信息。
-   *
    * 此函数旨在根据提供的房间ID异步更新房间的相关信息。
-   *
    * @Body roomDto - 房间更新的信息。
    * @returns {Promise<void>} - 此函数返回一个Promise，表示更新操作的异步性质。
    */
   @Put('update')
   async roomUpdate(@Body() roomDto: RoomUpdateDto): Promise<any> {
-    console.log(roomDto);
     return await this.meetingRoomService.roomUpdate(roomDto);
   }
 
@@ -76,7 +73,6 @@ export class MeetingRoomController {
    */
   @Post('create')
   async createList(@Body() roomDto: RoomCreateDto) {
-    console.log(roomDto);
     return await this.meetingRoomService.roomCreate(roomDto);
   }
 

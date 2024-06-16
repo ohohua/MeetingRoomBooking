@@ -1,12 +1,19 @@
 import http from "@/api";
 import { Button, Form, Input, Table, TableColumnsType, message, Image, Select } from "antd";
 import { useForm } from "antd/es/form/Form";
-import { useEffect, useMemo, useState } from "react";
+import { forwardRef, useEffect, useMemo, useRef, useState } from "react";
+import RoomModal from "./roomModal";
 
 interface DataType {
   id: number;
   isBooked: boolean;
+  name: string;
+  capacity: number;
+  description: string;
+  equipment: string;
+  location: string;
 }
+
 const RoomManage: React.FC = () => {
   const columns: TableColumnsType<DataType> = useMemo(
     () => [
@@ -55,7 +62,7 @@ const RoomManage: React.FC = () => {
   );
 
   const [list, setList] = useState<DataType[]>([]);
-  const [pageNo] = useState<number>(1);
+  const [pageNo, setPageNo] = useState<number>(1);
   const [pageSize] = useState<number>(10);
 
   const [form] = useForm();
@@ -78,6 +85,7 @@ const RoomManage: React.FC = () => {
       setList(list);
     }
   }
+
   async function freeze(id: number) {
     const res = await http.freezeUser(id);
     if (res.data.code === 200 || res.data.code === 201) {
@@ -86,6 +94,29 @@ const RoomManage: React.FC = () => {
     } else {
       message.error(res.data.message);
     }
+  }
+
+  /**
+   * 新增会议室
+   */
+  const Room = forwardRef(RoomModal);
+  const roomEl = useRef(null);
+
+  async function handleNewRoom() {
+    // const res = await http.createRoom({
+    //   name: "测试会议室",
+    //   capacity: 10,
+    //   description: "测试会议室",
+    //   equipment: "投影仪",
+    //   location: "测试会议室",
+    // });
+    // console.log(res);
+    // roomEl.current?.showModal();
+  }
+
+  function handleList() {
+    setPageNo(1);
+    useDataList();
   }
   useEffect(() => {
     useDataList();
@@ -119,13 +150,13 @@ const RoomManage: React.FC = () => {
         </Form.Item>
 
         <Form.Item name="password">
-          <Button type="primary" htmlType="submit">
+          <Button type="primary" htmlType="submit" onClick={handleList}>
             查询
           </Button>
         </Form.Item>
 
         <Form.Item name="password" wrapperCol={{ span: 16 }}>
-          <Button type="primary" htmlType="submit">
+          <Button type="primary" htmlType="submit" onClick={handleNewRoom}>
             新建
           </Button>
         </Form.Item>
@@ -139,6 +170,7 @@ const RoomManage: React.FC = () => {
           onChange: useDataList,
         }}
       />
+      <Room ref={roomEl} />
     </div>
   );
 };
