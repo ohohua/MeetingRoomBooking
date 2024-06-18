@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "ahooks": "^3.8.0",
     "antd": "^5.18.0",
     "axios": "^1.7.2",
     "qs": "^6.12.1",
