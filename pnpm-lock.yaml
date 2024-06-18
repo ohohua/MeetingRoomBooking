@@ -125,6 +125,9 @@ importers:
 
   client:
     dependencies:
+      ahooks:
+        specifier: ^3.8.0
+        version: 3.8.0(react@18.3.1)
       antd:
         specifier: ^5.18.0
         version: 5.18.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -170,7 +173,7 @@ importers:
         version: 7.12.0(eslint@8.57.0)(typescript@5.4.5)
       '@vitejs/plugin-react':
         specifier: ^4.2.1
-        version: 4.3.0(vite@5.2.13(@types/node@20.14.2))
+        version: 4.3.0(vite@5.2.13(@types/node@20.14.2)(terser@5.31.1))
       autoprefixer:
         specifier: ^10.4.19
         version: 10.4.19(postcss@8.4.38)
@@ -191,13 +194,13 @@ importers:
         version: 8.4.38
       tailwindcss:
         specifier: ^3.4.4
-        version: 3.4.4
+        version: 3.4.4(ts-node@10.9.2(@types/node@20.14.2)(typescript@5.4.5))
       typescript:
         specifier: ^5.2.2
         version: 5.4.5
       vite:
         specifier: ^5.2.0
-        version: 5.2.13(@types/node@20.14.2)
+        version: 5.2.13(@types/node@20.14.2)(terser@5.31.1)
 
 packages:
 
@@ -1383,6 +1386,12 @@ packages:
     engines: {node: '>=0.4.0'}
     hasBin: true
 
+  ahooks@3.8.0:
+    resolution: {integrity: sha512-M01m+mxLRNNeJ/PCT3Fom26UyreTj6oMqJBetUrJnK4VNI5j6eMA543Xxo53OBXn6XibA2FXKcCCgrT6YCTtKQ==}
+    engines: {node: '>=8.0.0'}
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.0 || ^18.0.0
+
   ajv-formats@2.1.1:
     resolution: {integrity: sha512-Wx0Kx52hxE7C18hkMEggYlEifqWZtYaRgouJor+WMdPnQyEK13vgEWyVNup7SoeeoLMsr4kf5h6dOW11I15MUA==}
     peerDependencies:
@@ -2497,6 +2506,9 @@ packages:
     resolution: {integrity: sha512-agE4QfB2Lkp9uICn7BAqoscw4SZP9kTE2hxiFI3jBPmXJfdqiahTbUuKGsMoN2GtqL9AxhYioAcVvgsb1HvRbA==}
     engines: {node: '>= 0.10'}
 
+  intersection-observer@0.12.2:
+    resolution: {integrity: sha512-7m1vEcPCxXYI8HqnL8CKI6siDyD+eIWSwgB3DZA+ZTogxk9I4CDnj4wilt9x/+/QbHI4YG5YZNmC6458/e9Ktg==}
+
   ipaddr.js@1.9.1:
     resolution: {integrity: sha512-0KI/607xoxSToH7GjN1FfSbLoU0+btTicjsQSWQlh/hZykN8KpmMf7uYwPW3R+akZ6R/w18ZlXSHBYXiYUPO3g==}
     engines: {node: '>= 0.10'}
@@ -2789,6 +2801,9 @@ packages:
   jiti@1.21.3:
     resolution: {integrity: sha512-uy2bNX5zQ+tESe+TiC7ilGRz8AtRGmnJH55NC5S0nSUjvvvM2hJHmefHErugGXN4pNv4Qx7vLsnNw9qJ9mtIsw==}
     hasBin: true
+
+  js-cookie@2.2.1:
+    resolution: {integrity: sha512-HvdH2LzI/EAZcUwA8+0nKNtWHqS+ZmijLA30RwZA0bo7ToCckjK5MkGhjED9KoRcXO6BaGI3I9UIzSA1FKFPOQ==}
 
   js-tokens@4.0.0:
     resolution: {integrity: sha512-RdJUflcE3cUzKiMqQgsCu06FPu9UdIJO0beYbPhHN4k6apgJtifcoCtT9bcxOpYBtpD2kCM6Sbzg4CausW/PKQ==}
@@ -3626,6 +3641,9 @@ packages:
     peerDependencies:
       react: ^18.3.1
 
+  react-fast-compare@3.2.2:
+    resolution: {integrity: sha512-nsO+KSNgo1SbJqJEYRE9ERzo7YtYbou/OqjSQKxV7jcKox7+usiUVZOAC+XnDOABXggQTno0Y1CpVnuWEc1boQ==}
+
   react-is@18.3.1:
     resolution: {integrity: sha512-/LLMVyas0ljjAtoYiPqYiL8VWXzUUdThrmU5+n20DZv+a+ClRoevUzw5JxU+Ieh5/c87ytoTBV9G1FiKfNJdmg==}
 
@@ -3776,6 +3794,10 @@ packages:
   schema-utils@3.3.0:
     resolution: {integrity: sha512-pN/yOAvcC+5rQ5nERGuwrjLlYvLTbCibnZ1I7B1LaiAz9BRBlE9GMgE/eqV30P7aJQUf7Ddimy/RsbYO/GrVGg==}
     engines: {node: '>= 10.13.0'}
+
+  screenfull@5.2.0:
+    resolution: {integrity: sha512-9BakfsO2aUQN2K9Fdbj87RJIEZ82Q9IGim7FqM5OsebfoFC6ZHXgDq/KvniuLTPdeM8wY2o6Dj3WQ7KeQCj3cA==}
+    engines: {node: '>=0.10.0'}
 
   scroll-into-view-if-needed@3.1.0:
     resolution: {integrity: sha512-49oNpRjWRvnU8NyGVmUaYG4jtTkNonFZI86MmGRDqBphEK2EXT9gdEUoQPZhuBM8yWHxCWbobltqYO5M4XrUvQ==}
@@ -5720,14 +5742,14 @@ snapshots:
 
   '@ungap/structured-clone@1.2.0': {}
 
-  '@vitejs/plugin-react@4.3.0(vite@5.2.13(@types/node@20.14.2))':
+  '@vitejs/plugin-react@4.3.0(vite@5.2.13(@types/node@20.14.2)(terser@5.31.1))':
     dependencies:
       '@babel/core': 7.24.7
       '@babel/plugin-transform-react-jsx-self': 7.24.7(@babel/core@7.24.7)
       '@babel/plugin-transform-react-jsx-source': 7.24.7(@babel/core@7.24.7)
       '@types/babel__core': 7.20.5
       react-refresh: 0.14.2
-      vite: 5.2.13(@types/node@20.14.2)
+      vite: 5.2.13(@types/node@20.14.2)(terser@5.31.1)
     transitivePeerDependencies:
       - supports-color
 
@@ -5827,6 +5849,19 @@ snapshots:
   acorn-walk@8.3.2: {}
 
   acorn@8.11.3: {}
+
+  ahooks@3.8.0(react@18.3.1):
+    dependencies:
+      '@babel/runtime': 7.24.7
+      dayjs: 1.11.11
+      intersection-observer: 0.12.2
+      js-cookie: 2.2.1
+      lodash: 4.17.21
+      react: 18.3.1
+      react-fast-compare: 3.2.2
+      resize-observer-polyfill: 1.5.1
+      screenfull: 5.2.0
+      tslib: 2.6.3
 
   ajv-formats@2.1.1(ajv@8.12.0):
     optionalDependencies:
@@ -7181,6 +7216,8 @@ snapshots:
 
   interpret@1.4.0: {}
 
+  intersection-observer@0.12.2: {}
+
   ipaddr.js@1.9.1: {}
 
   is-array-buffer@3.0.4:
@@ -7650,6 +7687,8 @@ snapshots:
 
   jiti@1.21.3: {}
 
+  js-cookie@2.2.1: {}
+
   js-tokens@4.0.0: {}
 
   js-yaml@3.14.1:
@@ -8094,12 +8133,13 @@ snapshots:
       camelcase-css: 2.0.1
       postcss: 8.4.38
 
-  postcss-load-config@4.0.2(postcss@8.4.38):
+  postcss-load-config@4.0.2(postcss@8.4.38)(ts-node@10.9.2(@types/node@20.14.2)(typescript@5.4.5)):
     dependencies:
       lilconfig: 3.1.1
       yaml: 2.4.5
     optionalDependencies:
       postcss: 8.4.38
+      ts-node: 10.9.2(@types/node@20.14.2)(typescript@5.4.5)
 
   postcss-nested@6.0.1(postcss@8.4.38):
     dependencies:
@@ -8503,6 +8543,8 @@ snapshots:
       react: 18.3.1
       scheduler: 0.23.2
 
+  react-fast-compare@3.2.2: {}
+
   react-is@18.3.1: {}
 
   react-refresh@0.14.2: {}
@@ -8672,6 +8714,8 @@ snapshots:
       '@types/json-schema': 7.0.15
       ajv: 6.12.6
       ajv-keywords: 3.5.2(ajv@6.12.6)
+
+  screenfull@5.2.0: {}
 
   scroll-into-view-if-needed@3.1.0:
     dependencies:
@@ -8911,7 +8955,7 @@ snapshots:
       '@pkgr/core': 0.1.1
       tslib: 2.6.3
 
-  tailwindcss@3.4.4:
+  tailwindcss@3.4.4(ts-node@10.9.2(@types/node@20.14.2)(typescript@5.4.5)):
     dependencies:
       '@alloc/quick-lru': 5.2.0
       arg: 5.0.2
@@ -8930,7 +8974,7 @@ snapshots:
       postcss: 8.4.38
       postcss-import: 15.1.0(postcss@8.4.38)
       postcss-js: 4.0.1(postcss@8.4.38)
-      postcss-load-config: 4.0.2(postcss@8.4.38)
+      postcss-load-config: 4.0.2(postcss@8.4.38)(ts-node@10.9.2(@types/node@20.14.2)(typescript@5.4.5))
       postcss-nested: 6.0.1(postcss@8.4.38)
       postcss-selector-parser: 6.1.0
       resolve: 1.22.8
@@ -9193,7 +9237,7 @@ snapshots:
 
   vary@1.1.2: {}
 
-  vite@5.2.13(@types/node@20.14.2):
+  vite@5.2.13(@types/node@20.14.2)(terser@5.31.1):
     dependencies:
       esbuild: 0.20.2
       postcss: 8.4.38
@@ -9201,6 +9245,7 @@ snapshots:
     optionalDependencies:
       '@types/node': 20.14.2
       fsevents: 2.3.3
+      terser: 5.31.1
 
   walker@1.0.8:
     dependencies:

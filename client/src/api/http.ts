@@ -11,7 +11,7 @@ http.interceptors.response.use(
   },
   async (error) => {
     return error.response;
-  }
+  },
 );
 
 export default http;

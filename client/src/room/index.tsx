@@ -1,8 +1,8 @@
 import http from "@/api";
-import { Button, Form, Input, Table, TableColumnsType, message, Image, Select } from "antd";
+import { Button, Form, Input, Table, TableColumnsType, message, Select } from "antd";
 import { useForm } from "antd/es/form/Form";
-import { forwardRef, useEffect, useMemo, useRef, useState } from "react";
-import RoomModal from "./roomModal";
+import { useEffect, useMemo, useState } from "react";
+import CreateMeetingRoomModal from "./roomModal";
 
 interface DataType {
   id: number;
@@ -99,8 +99,8 @@ const RoomManage: React.FC = () => {
   /**
    * 新增会议室
    */
-  const Room = forwardRef(RoomModal);
-  const roomEl = useRef(null);
+
+  const [isOpen, setIsOpen] = useState(false);
 
   async function handleNewRoom() {
     // const res = await http.createRoom({
@@ -111,7 +111,7 @@ const RoomManage: React.FC = () => {
     //   location: "测试会议室",
     // });
     // console.log(res);
-    // roomEl.current?.showModal();
+    setIsOpen(true);
   }
 
   function handleList() {
@@ -170,7 +170,12 @@ const RoomManage: React.FC = () => {
           onChange: useDataList,
         }}
       />
-      <Room ref={roomEl} />
+      <CreateMeetingRoomModal
+        handleClose={() => {
+          setIsOpen(false);
+        }}
+        isOpen={isOpen}
+      />
     </div>
   );
 };

@@ -22,7 +22,10 @@ export class CustomExceptionFilter implements ExceptionFilter {
       .json({
         code: exception.getStatus(), // 设置错误代码为HTTP状态码
         message: 'fail', // 错误消息固定为'fail'
-        data: res?.message || exception.message, // 错误详情取自异常对象的响应消息或直接取自异常对象的消息
+        data:
+          typeof res?.message === 'object'
+            ? res?.message?.join('，')
+            : res?.message || exception.message, // 错误详情取自异常对象的响应消息或直接取自异常对象的消息
       })
       .end(); // 结束响应
   }
