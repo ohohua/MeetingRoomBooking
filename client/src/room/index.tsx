@@ -79,20 +79,21 @@ const RoomManage: React.FC = () => {
       email: form.getFieldValue("email"),
       nickName: form.getFieldValue("nickName"),
     };
-    const res = await http.getRoomList(params);
-    if (res.data.code === 200 || res.data.code === 201) {
-      const list = res.data.data.list.map((it: DataType, index: number) => ({ ...it, key: index }));
+    const { data, code } = await http.getRoomList(params);
+
+    if (code === 200 || code === 201) {
+      const list = data.list.map((it: DataType, index: number) => ({ ...it, key: index }));
       setList(list);
     }
   }
 
   async function freeze(id: number) {
-    const res = await http.freezeUser(id);
-    if (res.data.code === 200 || res.data.code === 201) {
+    const { code, message: msg } = await http.freezeUser(id);
+    if (code === 200 || code === 201) {
       message.success("冻结成功");
       useDataList();
     } else {
-      message.error(res.data.message);
+      message.error(msg);
     }
   }
 
