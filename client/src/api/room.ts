@@ -32,8 +32,9 @@ export const listRoom = (params: ListDto) => http.get<Room.RoomListVo>(`${url}/l
 export const createRoom = (data: Room.CreateUpdateRoomDto) =>
   http.post<string>(`${url}/create`, data);
 
-export const updateRoom = (data: Room.CreateUpdateRoomDto) => http.put(`${url}/update`, data);
+export const updateRoom = (data: Room.CreateUpdateRoomDto) =>
+  http.put<string>(`${url}/update`, data);
 
-export const detailRoom = (id: number) => http.get(`${url}/${id}`);
+export const detailRoom = (id: number) => http.get<Room.ListRoom | string>(`${url}/${id}`);
 
 export const deleteRoom = (id: number) => http.delete(`${url}/${id}`);

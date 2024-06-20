@@ -1,14 +1,15 @@
-import { useCallback } from "react";
+import { useCallback, useEffect } from "react";
 import { Form, Input, InputNumber, Modal, message } from "antd";
 import { useForm } from "antd/es/form/Form";
 import TextArea from "antd/es/input/TextArea";
 import { useRequest } from "ahooks";
-import { createRoom } from "@/api/room";
 import { Room } from "@/api/room";
+import http from "@/api";
 
 export interface RoomProps {
   handleClose: () => void;
   isOpen: boolean;
+  id?: number;
 }
 
 const layout = {
@@ -17,11 +18,12 @@ const layout = {
 };
 
 const RoomModal = (props: RoomProps) => {
-  const { handleClose, isOpen } = props;
+  const { handleClose, isOpen, id } = props;
 
   const [form] = useForm<Room.CreateUpdateRoomDto>();
 
-  const { loading, run } = useRequest(createRoom, {
+  const { updateRoom, createRoom } = http;
+  const { loading, run } = useRequest(id ? updateRoom : createRoom, {
     manual: true,
     onSuccess: ({ data }) => {
       message.success(data);
@@ -37,9 +39,25 @@ const RoomModal = (props: RoomProps) => {
     const values = form.getFieldsValue();
     values.equipment = values.equipment || "";
     values.description = values.description || "";
+    if (id) values.id = id;
     run(values);
   }, []);
 
+  const roomDetail = async (id: number) => {
+    const { data, code } = await http.detailRoom(id);
+    if (code === 200 || code === 201) {
+      Object.entries(data).forEach(([key, value]) => {
+        form.setFieldValue(key, value);
+      });
+    } else {
+      message.error(data as string);
+    }
+  };
+  useEffect(() => {
+    if (id) {
+      roomDetail(id);
+    }
+  }, [id]);
   return (
     <>
       <Modal
