@@ -1,9 +1,22 @@
 import http from "./http";
 
-export const userList = async (params: any) => {
-  return http.get("user/list", { params });
-};
+export namespace User {
+  export interface UserList {
+    id: number;
+    username: string;
+    nickName: string;
+    email: string;
+    headPic: null | string;
+    phoneNumber: null | string;
+    isFrozen: boolean;
+  }
 
-export const freezeUser = async (id: number) => {
-  return http.get("user/freeze", { params: { id } });
-};
+  export interface UserListVo {
+    list: UserList[];
+    total: number;
+  }
+}
+
+export const userList = async (params: ListDto) => http.get<User.UserListVo>("user/list", params);
+
+export const freezeUser = async (id: number) => http.get("user/freeze", { id });

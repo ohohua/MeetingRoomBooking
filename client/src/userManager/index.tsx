@@ -2,20 +2,11 @@ import React, { useEffect, useMemo, useState } from "react";
 import { Table, Form, Button, Input, Image, message, Badge } from "antd";
 import type { FormProps, TableColumnsType } from "antd";
 import http from "@/api";
+import type { User } from "@/api/user";
 import { useForm } from "antd/es/form/Form";
 
-interface DataType {
-  key: React.Key;
-  id: number;
-  username: string;
-  nickName: string;
-  headPic: string;
-  email: string;
-  isFrozen: boolean;
-}
-
 const UserManage: React.FC = () => {
-  const columns: TableColumnsType<DataType> = useMemo(
+  const columns: TableColumnsType<User.UserList> = useMemo(
     () => [
       {
         title: "用户名",
@@ -60,7 +51,7 @@ const UserManage: React.FC = () => {
     [],
   );
 
-  const [list, setList] = useState<DataType[]>([]);
+  const [list, setList] = useState<User.UserList[]>([]);
   const [pageNo] = useState<number>(1);
   const [pageSize] = useState<number>(10);
 
@@ -82,19 +73,19 @@ const UserManage: React.FC = () => {
       email: form.getFieldValue("email"),
       nickName: form.getFieldValue("nickName"),
     };
-    const res = await http.userList(params);
-    if (res.data.code === 200 || res.data.code === 201) {
-      const list = res.data.data.list.map((it: DataType, index: number) => ({ ...it, key: index }));
+    const { code, data } = await http.userList(params);
+    if (code === 200 || code === 201) {
+      const list = data.list.map((it: User.UserList, index: number) => ({ ...it, key: index }));
       setList(list);
     }
   }
   async function freeze(id: number) {
-    const res = await http.freezeUser(id);
-    if (res.data.code === 200 || res.data.code === 201) {
+    const { code, msg } = await http.freezeUser(id);
+    if (code === 200 || code === 201) {
       message.success("冻结成功");
       useDataList();
     } else {
-      message.error(res.data.message);
+      message.error(msg);
     }
   }
   useEffect(() => {
