@@ -68,30 +68,32 @@ const RoomManage: React.FC = () => {
   const [form] = useForm();
 
   const onFinish = () => {
-    useDataList();
+    setPageNo(1);
+    userDataList();
   };
 
-  async function useDataList() {
+  async function userDataList() {
     const params = {
       pageNo,
       pageSize,
-      username: form.getFieldValue("username"),
-      email: form.getFieldValue("email"),
-      nickName: form.getFieldValue("nickName"),
+      name: form.getFieldValue("name"),
+      isBooked: form.getFieldValue("isBooked"),
     };
-    const { data, code } = await http.getRoomList(params);
+    const { data, code } = await http.listRoom(params);
 
     if (code === 200 || code === 201) {
       const list = data.list.map((it: DataType, index: number) => ({ ...it, key: index }));
       setList(list);
+    } else {
+      message.error("network error");
     }
   }
 
   async function freeze(id: number) {
-    const { code, message: msg } = await http.freezeUser(id);
+    const { code, msg } = await http.freezeUser(id);
     if (code === 200 || code === 201) {
       message.success("冻结成功");
-      useDataList();
+      userDataList();
     } else {
       message.error(msg);
     }
@@ -117,10 +119,10 @@ const RoomManage: React.FC = () => {
 
   function handleList() {
     setPageNo(1);
-    useDataList();
+    userDataList();
   }
   useEffect(() => {
-    useDataList();
+    userDataList();
   }, [pageNo, pageSize]);
 
   return (
@@ -168,12 +170,13 @@ const RoomManage: React.FC = () => {
         pagination={{
           current: pageNo,
           pageSize: pageSize,
-          onChange: useDataList,
+          onChange: userDataList,
         }}
       />
       <CreateMeetingRoomModal
         handleClose={() => {
           setIsOpen(false);
+          onFinish();
         }}
         isOpen={isOpen}
       />

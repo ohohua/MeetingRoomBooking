@@ -4,18 +4,11 @@ import { useForm } from "antd/es/form/Form";
 import TextArea from "antd/es/input/TextArea";
 import { useRequest } from "ahooks";
 import { createRoom } from "@/api/room";
+import { Room } from "@/api/room";
 
-export interface CreateMeetingRoomProps {
+export interface RoomProps {
   handleClose: () => void;
   isOpen: boolean;
-}
-
-export interface CreateMeetingRoom {
-  name: string;
-  capacity: number;
-  location: string;
-  equipment: string;
-  description: string;
 }
 
 const layout = {
@@ -23,27 +16,28 @@ const layout = {
   wrapperCol: { span: 18 },
 };
 
-const RoomModal = (props: CreateMeetingRoomProps) => {
+const RoomModal = (props: RoomProps) => {
   const { handleClose, isOpen } = props;
 
-  const [form] = useForm<CreateMeetingRoom>();
+  const [form] = useForm<Room.CreateUpdateRoomDto>();
 
-  const { data, error, loading, run } = useRequest(createRoom, {
+  const { loading, run } = useRequest(createRoom, {
     manual: true,
+    onSuccess: ({ data }) => {
+      message.success(data);
+      handleClose();
+    },
+    // @ts-ignore
+    onError: ({ data }) => {
+      message.error(data);
+    },
   });
 
   const handleOk = useCallback(async () => {
     const values = form.getFieldsValue();
     values.equipment = values.equipment || "";
     values.description = values.description || "";
-
     run(values);
-    if (error) {
-      return console.log("error", error);
-    }
-    console.log("data", data);
-
-    // handleClose();
   }, []);
 
   return (
