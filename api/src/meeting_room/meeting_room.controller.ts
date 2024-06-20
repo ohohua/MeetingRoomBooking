@@ -54,7 +54,6 @@ export class MeetingRoomController {
   async roomDelete(@Param('id') id: number) {
     return await this.meetingRoomService.roomDelete(id);
   }
-
   /**
    * 异步更新房间信息。
    * 此函数旨在根据提供的房间ID异步更新房间的相关信息。

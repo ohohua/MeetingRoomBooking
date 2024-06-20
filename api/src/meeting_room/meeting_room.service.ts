@@ -1,7 +1,7 @@
 import { BadRequestException, HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { MeetingRoom } from './entities/meeting_room.entity';
-import { Repository } from 'typeorm';
+import { Repository, Like, FindOptionsWhere } from 'typeorm';
 import { RoomCreateDto, RoomUpdateDto } from './dto/room.dto';
 // import { CustomExceptionFilter } from 'src/filter/custom-exception.filter';
 
@@ -45,36 +45,29 @@ export class MeetingRoomService {
    * @param name
    */
   async roomList(pageNo: number, pageSize: number, name: string, isBooked: boolean) {
-    const query = this.repository.createQueryBuilder('meeting_room');
+    if (pageNo < 1) {
+      throw new BadRequestException('页码最小为 1');
+    }
+    const skipCount = (pageNo - 1) * pageSize;
+
+    const where: FindOptionsWhere<MeetingRoom> = {};
+
     if (name) {
-      query.where('meeting_room.name like :name', { name: `%${name}%` });
+      where.name = Like(`%${name}%`);
     }
-
     if (isBooked) {
-      query.where('meeting_room.isBooked = :isBooked', { isBooked });
+      where.isBooked = isBooked;
     }
+    const [meetingRooms, totalCount] = await this.repository.findAndCount({
+      skip: skipCount,
+      take: pageSize,
+      where,
+    });
 
-    const [list, total] = await query
-      .skip((pageNo - 1) * pageSize)
-      .take(pageSize)
-      .getManyAndCount();
-    return { list, total };
-
-    // 写法2
-    // if(pageNo < 1) {
-    //   throw new BadRequestException('页码最小为 1');
-    // }
-    // const skipCount = (pageNo - 1) * pageSize;
-
-    // const [meetingRooms, totalCount] = await this.repository.findAndCount({
-    //     skip: skipCount,
-    //     take: pageSize
-    // });
-
-    // return {
-    //     meetingRooms,
-    //     totalCount
-    // }
+    return {
+      list: meetingRooms,
+      total: totalCount,
+    };
   }
 
   /**
