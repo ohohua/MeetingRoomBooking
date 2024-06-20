@@ -4,7 +4,8 @@
 
 2. 封装 axios
    一直以来我都误认为 `AxiosResponse<T>` 就是最终的返回值，但是当我在响应拦截里将 `return response` 改为 `return response.data` 时，
-   可以发现，`AxiosResponse<T>` 并不是最终的返回值。最终的返回值应该是 `response.data` 对应的类型
+   可以发现，`AxiosResponse<T>` 并不是最终的返回值。最终的返回值应该是 `response.data` 对应的类型。
+   所以目前有两种方式来使用正确的类型标注，1）封装 `get` 等方法，标注其返回为 `Promise<Result<T>>`。 2）`get` 方法的泛型传`<TypeData, Result<TypeData>>` 来覆盖 `R = AxiosResponse<T>`
 
 ```ts
 export interface AxiosResponse<T = any, D = any> {
