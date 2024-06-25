@@ -10,6 +10,7 @@ import Layout from "./layout";
 import Password from "./setting/password";
 import Message from "./setting/message";
 import Room from "./room";
+import Reserve from "./reserve";
 
 const routes = [
   {
@@ -28,11 +29,15 @@ const routes = [
       },
       {
         path: "message",
-        element: <Message></Message>,
+        element: <Message />,
       },
       {
         path: "password",
-        element: <Password></Password>,
+        element: <Password />,
+      },
+      {
+        path: "reserve",
+        element: <Reserve />,
       },
     ],
   },

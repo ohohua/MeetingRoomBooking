@@ -14,7 +14,7 @@ function useMenuItem() {
       icon: <AppstoreOutlined />,
     },
     {
-      key: "key2",
+      key: "reserve",
       label: "预定管理",
       icon: <MailOutlined />,
     },
